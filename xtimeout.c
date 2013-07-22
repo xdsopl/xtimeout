@@ -30,7 +30,9 @@ int main(int argc, char **argv)
 
 	if (0 == pid) {
 		argv += 2;
-		return execvp(argv[0], argv);
+		execvp(argv[0], argv);
+		perror(argv[0]);
+		return 1;
 	}
 
 	xcb_connection_t *con = xcb_connect(0, 0);
