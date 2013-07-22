@@ -30,6 +30,7 @@ int main(int argc, char **argv)
 
 	if (0 == pid) {
 		argv += 2;
+		setpgid(0, 0);
 		execvp(argv[0], argv);
 		perror(argv[0]);
 		return 1;
@@ -48,7 +49,7 @@ int main(int argc, char **argv)
 		int idle = info->ms_since_user_input / 1000;
 		free(info);
 		if (idle >= timeout)
-			return kill(pid, 15);
+			return kill(-pid, 15);
 	}
 	return 0;
 }
