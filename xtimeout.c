@@ -18,7 +18,8 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 int main(int argc, char **argv)
 {
 	if (argc < 3) {
-		fprintf(stderr, "usage: %s NUM CMD\n", argv[0]);
+		fprintf(stderr, "Usage: %s DURATION COMMAND [ARG]...\n", argv[0]);
+		fprintf(stderr, "Start COMMAND, and kill it after X idle time of DURATION seconds.\n");
 		return 1;
 	}
 	int timeout = atoi(argv[1]);
