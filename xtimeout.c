@@ -42,8 +42,7 @@ int main(int argc, char **argv)
 
 	while (1) {
 		sleep(1);
-		int status;
-		if (waitpid(pid, &status, WNOHANG))
+		if (waitpid(pid, 0, WNOHANG))
 			return 0;
 		xcb_screensaver_query_info_cookie_t cookie = xcb_screensaver_query_info(con, screen->root);
 		xcb_screensaver_query_info_reply_t *info = xcb_screensaver_query_info_reply(con, cookie, 0);
