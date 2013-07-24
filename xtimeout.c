@@ -15,6 +15,13 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #include <xcb/xcb.h>
 #include <xcb/screensaver.h>
 
+static pid_t child;
+void sig_handler(int sig)
+{
+	signal(sig, SIG_IGN);
+	exit(kill(-child, sig));
+}
+
 int main(int argc, char **argv)
 {
 	if (argc < 3) {
@@ -29,13 +36,18 @@ int main(int argc, char **argv)
 	if (pid < 0)
 		return 1;
 
-	if (0 == pid) {
+	if (!pid) {
 		argv += 2;
 		setpgid(0, 0);
 		execvp(argv[0], argv);
 		perror(argv[0]);
 		return 1;
 	}
+
+	child = pid;
+	signal(SIGINT, sig_handler);
+	signal(SIGHUP, sig_handler);
+	signal(SIGTERM, sig_handler);
 
 	xcb_connection_t *con = xcb_connect(0, 0);
 	xcb_screen_t *screen = xcb_setup_roots_iterator(xcb_get_setup(con)).data;
@@ -49,7 +61,7 @@ int main(int argc, char **argv)
 		int idle = info->ms_since_user_input / 1000;
 		free(info);
 		if (idle >= timeout)
-			return kill(-pid, 15);
+			return kill(-child, SIGTERM);
 	}
 	return 0;
 }
