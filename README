@@ -7,6 +7,6 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 Usage: xtimeout DURATION COMMAND [ARG]...
 Start COMMAND, and kill it after X idle time of DURATION seconds.
 
-kill xclock after idle time of 10 seconds:
+start xclock and kill it after 10 seconds of no mouse movement or key presses:
 # ./xtimeout 10 xclock
 
