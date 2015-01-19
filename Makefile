@@ -1,5 +1,5 @@
 CFLAGS = -std=c99 -W -Wall -O3 -D_POSIX_C_SOURCE
-LDFLAGS = -lxcb -lxcb-screensaver
+LDLIBS = -lxcb -lxcb-screensaver
 
 xtimeout: xtimeout.c
 
